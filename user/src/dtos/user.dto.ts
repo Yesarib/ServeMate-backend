@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
+import { ObjectId } from 'mongoose';
 
 export class CreateUserDto {
     @IsNotEmpty()
@@ -21,6 +22,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsString()
     phoneNumber: string
+
+    @IsNotEmpty()
+    companyId: ObjectId
 }
 
 export class UpdateUserDto {
