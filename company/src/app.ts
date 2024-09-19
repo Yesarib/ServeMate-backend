@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import cors from 'cors'
 import createError from 'http-errors'
+import routes from './routes';
 import errorHandler from './middlewares/errorHandler';
-import authRoutes from './routes/auth.route'
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.get('/check', (req,res) => {
     res.json({msg: "checkk"})
 })
 
-app.use('/', authRoutes);
+app.use('/', routes());
 
 app.use(async (req, res, next) => {
     next(createError.NotFound());

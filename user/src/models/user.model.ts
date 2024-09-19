@@ -15,7 +15,8 @@ const userSchema = new Schema({
     password: { type: String, required: true },
     role: { type: String, require: true },
     phoneNumber: { type: String, required: true, unique: true },
-})
+    companyId: { type: Schema.Types.ObjectId, required: true }
+}, { timestamps: true })
 
 
 const User = model('User', userSchema);

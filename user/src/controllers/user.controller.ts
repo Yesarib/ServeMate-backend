@@ -6,7 +6,7 @@ import { ObjectId } from "mongoose";
 const createUser: RequestHandler<unknown, unknown, CreateUserDto, unknown> = async (req, res, next) => {
     try {
         const userData = req.body;
-
+        
         const result = await userService.createUser(userData);
 
         res.status(201).json(result);
@@ -27,19 +27,33 @@ const getUserById: RequestHandler<{ userId: ObjectId }, unknown, unknown, unknow
     }
 }
 
-const updateUser: RequestHandler<{ userId: ObjectId }, unknown, UpdateUserDto, unknown> = async(req,res,next) => {
+const getUserByEmail: RequestHandler<unknown, unknown, unknown, { email: string }> = async (req, res, next) => {
+    try {
+        const { email } = req.query;
+
+        const user = await userService.getUserByEmail(email);
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        
+        next(error)
+    }
+}
+
+const updateUser: RequestHandler<{ userId: ObjectId }, unknown, UpdateUserDto, unknown> = async (req, res, next) => {
     try {
         const { userId } = req.params;
         const userData = req.body;
 
-        const result = await userService.updateUser(userId,userData);
+        const result = await userService.updateUser(userId, userData);
         res.status(201).json(result);
     } catch (error) {
         next(error)
     }
 }
 
-const deleteUser:RequestHandler<{ userId: ObjectId }, unknown,unknown,unknown> = async(req,res,next) => {
+const deleteUser: RequestHandler<{ userId: ObjectId }, unknown, unknown, unknown> = async (req, res, next) => {
     try {
         const { userId } = req.params;
 
@@ -54,6 +68,7 @@ const deleteUser:RequestHandler<{ userId: ObjectId }, unknown,unknown,unknown> =
 const userController = {
     createUser,
     getUserById,
+    getUserByEmail,
     updateUser,
     deleteUser
 }
