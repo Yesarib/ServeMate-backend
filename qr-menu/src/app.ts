@@ -20,6 +20,28 @@ app.get('/check', (req,res) => {
 })
 
 app.use('/', routes());
+app.get('/servemate/:companyId/:tableId', (req, res) => {
+    const companyId = req.params.companyId;
+    const tableId = req.params.tableId;
+
+    res.send(`
+        <html>
+        <head>
+            <title>QR Menü</title>
+        </head>
+        <body>
+            <h1>Cafe Bilgileri</h1>
+            <p>Şirket ID: ${companyId}</p>
+            <p>Masa ID: ${tableId}</p>
+            <form action="/order" method="get">
+                <input type="hidden" name="companyId" value="${companyId}" />
+                <input type="hidden" name="tableId" value="${tableId}" />
+                <button type="submit">Sipariş Ver</button>
+            </form>
+        </body>
+        </html>
+    `);
+});
 
 app.use(async (req, res, next) => {
     next(createError.NotFound());

@@ -1,5 +1,5 @@
 {
-  "name": "qr-menu",
+  "name": "product",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -18,12 +18,12 @@
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.5.5",
-    "@types/qrcode": "^1.5.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.8",
+    "@apollo/server": "^4.11.0",
+    "apollo-server-express": "^3.13.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",
     "class-transformer": "^0.5.1",
@@ -31,14 +31,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
-    "fs": "^0.0.1-security",
     "graphql": "^16.9.0",
     "http-errors": "^2.0.0",
-    "jimp": "^1.6.0",
     "mongoose": "^8.6.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.6",
-    "qrcode": "^1.5.4",
-    "qrcode-reader": "^1.0.4"
+    "nodemon": "^3.1.6"
   }
 }
