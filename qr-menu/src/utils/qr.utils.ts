@@ -7,7 +7,7 @@ import path from 'path';
 
 export const generateQrCode = async (qrData: CreateQRDto) => {
     const jsonQrData = JSON.stringify(qrData);
-    const qrCodeUrl = `https://servemate/${qrData.companyId}/${qrData.tableId}`;
+    const qrCodeUrl = `http://localhost:8083/servemate/${qrData.companyId}/${qrData.tableId}`;
     const timestamp = Date.now();
     const filePath = `./uploads/qrcodes/qr-code-${timestamp}.png`;
 
