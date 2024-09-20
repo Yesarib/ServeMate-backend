@@ -6,7 +6,7 @@ import createHttpError from "http-errors";
 
 const createProduct = async (productData: CreateProductDto) => {
     const product = new Product(productData);
-
+    await product.save();
     return new ApiResponseDto(true, product)
 }
 

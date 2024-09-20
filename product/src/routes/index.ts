@@ -3,8 +3,8 @@ const router = express.Router();
 import productRoutes from './product.route'
 
 const routes = () => {
-    router.use('/',productRoutes)
+    router.use('/', productRoutes)
     return router
 }
 
-export default routes;
+export default () => routes;

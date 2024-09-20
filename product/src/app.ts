@@ -3,29 +3,45 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import cors from 'cors'
 import createError from 'http-errors'
-import routes from './routes';
 import errorHandler from './middlewares/errorHandler';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4'
+import { resolvers, typeDefs } from './graphql/schema';
+import productRoutes from './routes/product.route'
 
-const app = express();
+const startServer = async () => {
+    const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-app.use(morgan('dev'))
+    const server = new ApolloServer({ 
+        typeDefs: typeDefs, 
+        resolvers: resolvers,
+    });
 
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }));
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(cors());
+    app.use(morgan('dev'))
 
-app.get('/check', (req,res) => {
-    res.json({msg: "checkk"})
-})
+    await server.start();
 
-app.use('/', routes());
+    app.get('/check', (req, res) => {
+        res.json({ msg: "checkk" })
+    })
 
-app.use(async (req, res, next) => {
-    next(createError.NotFound());
-})
+    app.use('/graphql', expressMiddleware(server))
+    app.use('/', productRoutes);
 
-app.use(errorHandler)
+    app.use(async (req, res, next) => {
+        next(createError.NotFound());
+    })
 
+    app.use(errorHandler)
+    const PORT: string = process.env.PORT || "5000";
 
-export default app;
+    app.listen(PORT, () => {
+        console.log(`Server running on ${PORT}`);
+    })
+}
+
+export default startServer;
