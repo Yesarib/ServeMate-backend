@@ -28,6 +28,16 @@ const getProductById = async (productId: string) => {
     return new ApiResponseDto(true, product)
 }
 
+const getProductsByIds = async (_:any, args: { ids: string[] }, { Product }:any) => {
+    const { ids } = args;
+    
+    const objIds = ids.map(id => new mongoose.Types.ObjectId(id));
+    const products = await Product.find({ _id: { $in: objIds } });
+    console.log(products);
+    
+    return products;
+};
+
 const updateProduct = async (productId: string, productData: UpdateProductDto) => {
     const objId = new mongoose.Types.ObjectId(productId);
 
@@ -57,7 +67,8 @@ const productService = {
     getCompanyProducts,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByIds
 }
 
 
