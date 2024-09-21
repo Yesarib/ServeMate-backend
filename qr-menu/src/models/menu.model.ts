@@ -10,7 +10,7 @@ const MenuSchema: Schema = new Schema({
   tableId: { type: String, required: true },
   companyId: { type: String, required: true, unique: true },
   categoryIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }]
-});
+}, { timestamps: true });
 
 const MenuModel = mongoose.model<IMenu>('Menu', MenuSchema);
 

@@ -24,7 +24,7 @@ const CategorySchema: Schema = new Schema({
   imagePath: { type: String, default: "p.png" },
   products: [ProductSchema],
   companyId: { type: mongoose.Types.ObjectId, required: true }
-});
+}, { timestamps: true });
 
 const CategoryModel = mongoose.model<ICategory>('Category', CategorySchema);
 
