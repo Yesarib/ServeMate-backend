@@ -4,12 +4,13 @@ import { fetchProductsByIds } from "./product.services";
 import Order, { IProduct } from "../models/order.model";
 import { ApiResponseDto } from "../dtos/api.dto";
 import { calculateTotalAmount } from "../utils/totalAmount";
+import { sendOrderInfo } from "./publisher..services";
 
 const newOrder = async (orderData: CreateOrderDto) => {
     const products = await fetchProductsByIds(orderData.products.map(p => p.productId));
 
     if (products?.length === 0) {
-        return createHttpError[400]('There is no products')
+        throw createHttpError[400]('There is no products')
     }
 
     const orderedProducts = products.map((product: any) => {
@@ -35,7 +36,7 @@ const newOrder = async (orderData: CreateOrderDto) => {
     })
 
     await order.save();
-
+    await sendOrderInfo({ companyId: order.companyId, tableId: order.tableId, products: order.products })
     return new ApiResponseDto(true, order)
 }
 
@@ -120,7 +121,7 @@ const confirmNewOrder = async (orderId: string) => {
     return new ApiResponseDto(true, order)
 }
 
-const completeOrder = async (orderId: string, paymentMethod:string) => {
+const completeOrder = async (orderId: string, paymentMethod: string) => {
     const order = await Order.findById(orderId);
     if (!order) {
         throw createHttpError(404, 'Order not found');

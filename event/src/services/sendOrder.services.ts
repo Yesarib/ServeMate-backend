@@ -10,7 +10,8 @@ export interface IProduct {
 
 export const sendOrderInfo = async (companyId: string, tableId: string, products: IProduct[]) => {
     const io = getIO();
-
+    console.log(companyId);
+    
     const companyChannel = `company-${companyId}`;
 
     io.emit(companyChannel, { tableId, products });

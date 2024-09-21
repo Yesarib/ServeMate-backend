@@ -1,4 +1,4 @@
-import { ArrayMinSize, ArrayNotEmpty, IsArray, IsBoolean, IsNotEmpty,IsNumber,IsObject,IsOptional,IsString } from 'class-validator';
+import { ArrayMinSize, ArrayNotEmpty, IsArray, IsBoolean, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString } from 'class-validator';
 
 export class CreateOrderDto {
     @IsNotEmpty()
@@ -12,6 +12,7 @@ export class CreateOrderDto {
     @IsArray()
     @ArrayNotEmpty()
     @ArrayMinSize(1)
+    @IsNotEmpty({ each: true })
     @IsObject({ each: true })
     products: { productId: string; quantity: number }[];
 
