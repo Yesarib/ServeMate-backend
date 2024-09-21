@@ -4,40 +4,38 @@ import mongoose from 'mongoose';
 
 export const typeDefs = gql`
   type Product {
-        id: ID!,
-        name: String!,
-        description: String!,
-        price: Int!,
-        companyId: String!
-    }
+    id: ID!,
+    name: String!,
+    description: String!,
+    price: Int!,
+    companyId: String!
+  }
 
   type Query {
     products: [Product]
-    product(id:ID!) : Product
+    product(id: ID!): Product
     getProductsByIds(productIds: [String!]!): [Product]
   }
 `;
 
 export const resolvers = {
   Query: {
-
     products: async () => {
-      return await Product.find();
+      return await Product.find({}, 'id name price');
     },
 
     product: async (_: unknown, args: { id: string }) => {
       const { id } = args;
-
-      return await Product.findById(id);
+      return await Product.findById(id).select('id name price'); 
     },
 
     getProductsByIds: async (_: unknown, args: { productIds: string[] }) => {
       const { productIds } = args;
 
       const objIds = productIds.map(id => new mongoose.Types.ObjectId(id));
-      const products = await Product.find({ _id: { $in: objIds } })
+      const products = await Product.find({ _id: { $in: objIds } }).select('id name price');
 
-      return products
+      return products;
     }
   },
 };
