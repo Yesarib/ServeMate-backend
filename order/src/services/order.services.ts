@@ -4,7 +4,7 @@ import { fetchProductsByIds } from "./product.services";
 import Order, { IProduct } from "../models/order.model";
 import { ApiResponseDto } from "../dtos/api.dto";
 import { calculateTotalAmount } from "../utils/totalAmount";
-import { sendOrderInfo } from "./publisher..services";
+import { sendOrderInfo } from "./publisher.services";
 
 const newOrder = async (orderData: CreateOrderDto) => {
     const products = await fetchProductsByIds(orderData.products.map(p => p.productId));
@@ -36,7 +36,16 @@ const newOrder = async (orderData: CreateOrderDto) => {
     })
 
     await order.save();
-    await sendOrderInfo({ companyId: order.companyId, tableId: order.tableId, products: order.products })
+
+    await sendOrderInfo({
+        companyId: order.companyId,
+        tableId: order.tableId,
+        products: orderedProducts.map((p: any) => ({
+            productId: p.productId,
+            quantity: p.quantity
+        }))
+    });
+
     return new ApiResponseDto(true, order)
 }
 
@@ -58,6 +67,7 @@ const newItemsToOrder = async (orderId: string, newItems: NewItem[]) => {
 
     const productIds = newItems.map(item => item.productId);
     const products = await fetchProductsByIds(productIds);
+    console.log(products);
 
     if (!products || products.length === 0) {
         throw createHttpError(400, 'No valid products found');
@@ -91,7 +101,20 @@ const newItemsToOrder = async (orderId: string, newItems: NewItem[]) => {
 
     order.totalAmount = total;
     order.isNewOrder = true;
+
     await order.save();
+    await sendOrderInfo({
+        companyId: order.companyId,
+        tableId: order.tableId,
+        products: products.map((p: any) => {
+            const newItem = newItems.find(item => item.productId === p.id);
+            return {
+                productId: p.id,
+                name: p.name,
+                quantity: newItem ? newItem.quantity : 0 
+            };
+        })
+    });
 
     return new ApiResponseDto(true, order);
 };
