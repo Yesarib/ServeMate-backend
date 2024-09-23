@@ -4,12 +4,13 @@ import { fetchProductsByIds } from "./product.services";
 import Order, { IProduct } from "../models/order.model";
 import { ApiResponseDto } from "../dtos/api.dto";
 import { calculateTotalAmount } from "../utils/totalAmount";
+import { sendOrderInfo } from "./publisher.services";
 
 const newOrder = async (orderData: CreateOrderDto) => {
     const products = await fetchProductsByIds(orderData.products.map(p => p.productId));
 
     if (products?.length === 0) {
-        return createHttpError[400]('There is no products')
+        throw createHttpError[400]('There is no products')
     }
 
     const orderedProducts = products.map((product: any) => {
@@ -36,6 +37,15 @@ const newOrder = async (orderData: CreateOrderDto) => {
 
     await order.save();
 
+    await sendOrderInfo({
+        companyId: order.companyId,
+        tableId: order.tableId,
+        products: orderedProducts.map((p: any) => ({
+            productId: p.productId,
+            quantity: p.quantity
+        }))
+    });
+
     return new ApiResponseDto(true, order)
 }
 
@@ -57,6 +67,7 @@ const newItemsToOrder = async (orderId: string, newItems: NewItem[]) => {
 
     const productIds = newItems.map(item => item.productId);
     const products = await fetchProductsByIds(productIds);
+    console.log(products);
 
     if (!products || products.length === 0) {
         throw createHttpError(400, 'No valid products found');
@@ -90,7 +101,20 @@ const newItemsToOrder = async (orderId: string, newItems: NewItem[]) => {
 
     order.totalAmount = total;
     order.isNewOrder = true;
+
     await order.save();
+    await sendOrderInfo({
+        companyId: order.companyId,
+        tableId: order.tableId,
+        products: products.map((p: any) => {
+            const newItem = newItems.find(item => item.productId === p.id);
+            return {
+                productId: p.id,
+                name: p.name,
+                quantity: newItem ? newItem.quantity : 0 
+            };
+        })
+    });
 
     return new ApiResponseDto(true, order);
 };
@@ -120,7 +144,7 @@ const confirmNewOrder = async (orderId: string) => {
     return new ApiResponseDto(true, order)
 }
 
-const completeOrder = async (orderId: string, paymentMethod:string) => {
+const completeOrder = async (orderId: string, paymentMethod: string) => {
     const order = await Order.findById(orderId);
     if (!order) {
         throw createHttpError(404, 'Order not found');
