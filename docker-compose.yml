@@ -1,0 +1,133 @@
+services:
+  auth:
+    container_name: servemate_auth
+    build: ./auth
+    ports:
+      - 8080:8080
+    networks:
+      - servemate
+    volumes:
+      - ./auth:/usr/src/app/auth/
+      - /usr/src/app/auth/node_modules
+
+  user:
+    container_name: servemate_user
+    build: ./user
+    volumes:
+      - ./user:/usr/src/app/user/
+      - /usr/src/app/user/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8081:8080
+    networks:
+      - servemate
+    restart: always
+  
+  company:
+    container_name: servemate_company
+    build: ./company
+    volumes:
+      - ./company:/usr/src/app/company/
+      - /usr/src/app/company/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8082:8080
+    networks:
+      - servemate    
+    restart: always
+
+  product:
+    container_name: servemate_product
+    build: ./product
+    volumes:
+      - ./product:/usr/src/app/product/
+      - /usr/src/app/product/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8083:8080
+    networks:
+      - servemate    
+    restart: always
+
+  qr-menu:
+    container_name: servemate_qr-menu
+    build: ./qr-menu
+    volumes:
+      - ./qr-menu:/usr/src/app/qr-menu/
+      - /usr/src/app/qr-menu/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8084:8080
+    networks:
+      - servemate    
+    restart: always
+
+  order:
+    container_name: servemate_order
+    build: ./order
+    volumes:
+      - ./order:/usr/src/app/order/
+      - /usr/src/app/order/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8085:8080
+    networks:
+      - servemate    
+    restart: always
+
+  event:
+    container_name: servemate_event
+    build: ./event
+    volumes:
+      - ./event:/usr/src/app/event/
+      - /usr/src/app/event/node_modules
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 8086:8080
+    networks:
+      - servemate
+    depends_on:
+      - rabbitmq
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: servermate_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - servemate
+    environment:
+    - RABBITMQ_DEFAULT_USER=admin
+    - RABBITMQ_DEFAULT_PASS=admin
+    - RABBITMQ_ERLANG_COOKIE=somerandomcookie
+
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - servemate
+    depends_on:
+      - auth
+      - user
+      - company
+      - product
+      - qr-menu
+      - order
+      - event
+  
+networks:
+  servemate:
+    name: servemate
+    driver: bridge
