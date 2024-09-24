@@ -3,7 +3,7 @@ const router = express.Router();
 import orderRoutes from './order.route'
 
 const routes = () => {
-    router.use('/order',orderRoutes)
+    router.use('/',orderRoutes)
     return router
 }
 

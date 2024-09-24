@@ -15,7 +15,7 @@ app.use(cors());
 app.use(morgan('dev'))
 
 
-app.get('/check', (req,res) => {
+app.get('/order/check', (req,res) => {
     res.json({msg: "checkk"})
 })
 
