@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import qrCodeService from "../services/qr.services";
+import qrCodeService from "../../services/qr.services";
 
 
 const createQrCode: RequestHandler = async (req, res, next) => {

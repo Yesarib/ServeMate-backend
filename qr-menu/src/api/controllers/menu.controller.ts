@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import menuService from "../services/menu.services";
+import menuService from "../../services/menu.services";
 
 
 const createMenu: RequestHandler = async (req, res, next) => {

@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import tableService from "../services/table.services";
+import tableService from "../../services/table.services";
 
 
 const createTable:RequestHandler = async(req,res,next) => {

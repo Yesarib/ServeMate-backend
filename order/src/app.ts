@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan'
 import cors from 'cors'
 import createError from 'http-errors'
-import routes from './routes';
+import routes from './api/routes';
 import errorHandler from './middlewares/errorHandler';
 
 const app = express();

@@ -1,7 +1,7 @@
 import express from 'express'
 import companyController from '../controllers/company.controller';
-import { validationMiddleware } from '../middlewares/validation';
-import { CreateCompanyDto, UpdateCompanyDto } from '../dtos/company.dto';
+import { validationMiddleware } from '../../middlewares/validation';
+import { CreateCompanyDto, UpdateCompanyDto } from '../../dtos/company.dto';
 const router = express.Router();
 
 

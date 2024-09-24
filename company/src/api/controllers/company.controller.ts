@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import companyService from "../services/company.services";
+import companyService from "../../services/company.services";
 import { ObjectId } from "mongoose";
 
 

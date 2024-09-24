@@ -7,7 +7,7 @@ import errorHandler from './middlewares/errorHandler';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4'
 import { resolvers, typeDefs } from './graphql/schema';
-import productRoutes from './routes/product.route'
+import productRoutes from './api/routes/product.route'
 
 const startServer = async () => {
     const app = express();

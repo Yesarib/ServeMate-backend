@@ -1,6 +1,6 @@
 import express from 'express'
-import { validationMiddleware } from '../middlewares/validation';
-import { CreateMenuDto, UpdateMenuDto } from '../dtos/menu.dto';
+import { validationMiddleware } from '../../middlewares/validation';
+import { CreateMenuDto, UpdateMenuDto } from '../../dtos/menu.dto';
 import menuController from '../controllers/menu.controller';
 const router = express.Router();
 
