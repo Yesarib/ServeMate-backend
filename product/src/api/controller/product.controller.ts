@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import productService from "../services/product.services";
+import productService from "../../services/product.services";
 
 const createProduct: RequestHandler = async (req, res, next) => {
     try {

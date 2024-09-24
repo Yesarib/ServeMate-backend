@@ -1,6 +1,6 @@
 import express from 'express'
-import { validationMiddleware } from '../middlewares/validation';
-import { CreateProductDto, UpdateProductDto } from '../dtos/product.dto';
+import { validationMiddleware } from '../../middlewares/validation';
+import { CreateProductDto, UpdateProductDto } from '../../dtos/product.dto';
 import productController from '../controller/product.controller';
 const router = express.Router();
 

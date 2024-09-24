@@ -1,7 +1,7 @@
 import express from 'express'
-import { validationMiddleware } from '../middlewares/validation';
+import { validationMiddleware } from '../../middlewares/validation';
 import qrCodeController from '../controllers/qr.controller';
-import { CreateQRDto } from '../dtos/qr.dto';
+import { CreateQRDto } from '../../dtos/qr.dto';
 const router = express.Router();
 
 router.post('/', validationMiddleware(CreateQRDto), qrCodeController.createQrCode);

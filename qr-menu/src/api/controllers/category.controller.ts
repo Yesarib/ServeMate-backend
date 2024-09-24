@@ -1,6 +1,6 @@
 
 import { RequestHandler } from "express";
-import categoryService from "../services/category.services";
+import categoryService from "../../services/category.services";
 
 
 const createCategory: RequestHandler = async (req, res, next) => {

@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import orderService from "../services/order.services";
+import orderService from "../../services/order.services";
 
 const newOrder: RequestHandler = async (req, res, next) => {
     try {

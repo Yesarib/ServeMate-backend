@@ -1,5 +1,5 @@
-import { LoginDto } from "../dtos/auth.dto";
-import authService from "../services/auth.services";
+import { LoginDto } from "../../dtos/auth.dto";
+import authService from "../../services/auth.services";
 import { RequestHandler } from "express";
 
 const validateToken: RequestHandler<unknown, unknown, unknown, unknown> = async (req, res, next) => {

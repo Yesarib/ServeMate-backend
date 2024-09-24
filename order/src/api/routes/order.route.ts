@@ -1,6 +1,6 @@
 import express from 'express'
-import { validationMiddleware } from '../middlewares/validation';
-import { CreateOrderDto } from '../dtos/order.dto';
+import { validationMiddleware } from '../../middlewares/validation';
+import { CreateOrderDto } from '../../dtos/order.dto';
 import orderController from '../controllers/order.controller';
 const router = express.Router();
 

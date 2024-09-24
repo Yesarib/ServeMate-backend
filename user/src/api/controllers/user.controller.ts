@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import userService from "../services/user.services";
-import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
+import userService from "../../services/user.services";
+import { CreateUserDto, UpdateUserDto } from "../../dtos/user.dto";
 import { ObjectId } from "mongoose";
 
 const createUser: RequestHandler<unknown, unknown, CreateUserDto, unknown> = async (req, res, next) => {

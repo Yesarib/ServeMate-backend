@@ -4,7 +4,7 @@ import morgan from 'morgan'
 import cors from 'cors'
 import createError from 'http-errors'
 import errorHandler from './middlewares/errorHandler';
-import authRoutes from './routes/auth.route'
+import authRoutes from './api/routes/auth.route'
 
 const app = express();
 
